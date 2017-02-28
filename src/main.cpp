@@ -48,7 +48,7 @@ unsigned int nStakeTargetSpacing = 5 * 60; // 5-minute stakes spacing
 int64_t nTargetSpacing = 5 * 60;  // Same as the above
 unsigned int nModifierInterval = 1 * nOneHour; // time to elapse before new modifier is computed
 
-int nCoinbaseMaturity = 30;
+int nCoinbaseMaturity = 5;
 
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -1073,7 +1073,7 @@ int64_t GetProofOfStakeReward(int64_t nCoinAge, unsigned int nBits, int64_t nTim
     int64_t nSubsidy = nCoinAge * nRewardCoinYear / 365;
 
     if (fDebug && GetBoolArg("-printcreation"))
-        printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nCoinAge);
+       // printf("GetProofOfStakeReward(): create=%s nCoinAge=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nCoinAge);
 
     return nSubsidy; // + nFees;
 }
@@ -2731,7 +2731,7 @@ bool LoadBlockIndex(bool fAllowNew)
         if (!fAllowNew)
             return false;
 
-        const char* pszTimestamp = "MasterSwiscoin Genesis";
+        const char* pszTimestamp = "AddCoins Genesis";
         CTransaction txNew;
         txNew.nTime = 1486662981;
         txNew.vin.resize(1);
@@ -2745,13 +2745,32 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nVersion = 1;
         block.nTime    = 1486662981;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
-        block.nNonce   = 315280; // !fTestNet ? 1575379 : 46534;
+        block.nNonce   = 1225473; // !fTestNet ? 1575379 : 46534;
 		
+        // CBigNum bnTarget;
+        // bnTarget.SetCompact(block.nBits);
+
+        // while (block.GetHash() > bnTarget.getuint256())
+        // {
+        //     if (fRequestShutdown)
+        //         return false;
+        //     if (block.nNonce % 1048576 == 0)
+        //         printf("n=%dM hash=%s\n", block.nNonce / 1048576,
+        //                block.GetHash().ToString().c_str());
+        //     block.nNonce++;
+        // }
      
+        // printf("Peershares Genesis Block Found:\n");
+        // printf("genesis hash=%s\n", block.GetHash().ToString().c_str());
+        // printf("merkle root=%s\n", block.hashMerkleRoot.ToString().c_str());
+        // block.print();
+     
+        //printf("End Peershares Genesis Block\n");
+        
         block.print();
 
         //// debug print
-        assert(block.hashMerkleRoot == uint256("0xc62e6f9de52d5781e5adf4b60dea4c420dc272f415dbf2941c443a78d0a1a309"));
+        assert(block.hashMerkleRoot == uint256("0x599d7567a5f01a7b46bef6ca1b81b3a383053cc1be88ec540b89d86c42935a50"));
         assert(block.GetHash() == (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet));
         assert(block.CheckBlock());
 
@@ -3056,7 +3075,7 @@ bool static AlreadyHave(CTxDB& txdb, const CInv& inv)
 // The message start string is designed to be unlikely to occur in normal data.
 // The characters are rarely used upper ASCII, not valid as UTF-8, and produce
 // a large 4-byte int at any alignment.
-unsigned char pchMessageStart[4] = { 0xb6, 0xfe, 0xe0, 0xc5 };
+unsigned char pchMessageStart[4] = { 0xdd, 0xfc, 0x8d, 0xb4 };
 
 bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 {
