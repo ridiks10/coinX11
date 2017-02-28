@@ -42,9 +42,9 @@ uint256 nPoWBase = uint256("0x00000000ffff00000000000000000000000000000000000000
 
 CBigNum bnProofOfWorkLimitTestNet(~uint256(0) >> 16);
 
-unsigned int nStakeMinAge = 6 * nOneHour; //as zero time weight
-unsigned int nStakeMaxAge = 3 * 24 * nOneHour; //as full weight
-unsigned int nStakeTargetSpacing = 5 * 60; // 5-minute stakes spacing
+unsigned int nStakeMinAge = nOneHour; // 1-hour as zero time weight
+unsigned int nStakeMaxAge = 90 * 24 * nOneHour; // 90 days as full weight
+unsigned int nStakeTargetSpacing = 3 * 60; // 3-minute stakes spacing
 int64_t nTargetSpacing = 5 * 60;  // Same as the above
 unsigned int nModifierInterval = 1 * nOneHour; // time to elapse before new modifier is computed
 
@@ -1068,7 +1068,7 @@ int64_t GetProofOfWorkReward(unsigned int nBits, int64_t nFees, int nHeight)
 // miner's coin stake reward based on nBits and coin age spent (coin-days)
 int64_t GetProofOfStakeReward(int64_t nCoinAge, unsigned int nBits, int64_t nTime, bool bCoinYearOnly)
 {
-    int64_t nRewardCoinYear = 1 * CENT;
+    int64_t nRewardCoinYear = 30 * CENT;
 
     int64_t nSubsidy = nCoinAge * nRewardCoinYear / 365;
 
@@ -2303,7 +2303,7 @@ bool CBlock::AcceptBlock()
         return DoS(100, error("AcceptBlock() : incorrect %s", IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
 
     int64_t nMedianTimePast = pindexPrev->GetMedianTimePast();
-    int64_t nMaxOffset = 8 * 86400; // Eight days
+    int64_t nMaxOffset = 4 * 86400; // Four days
 
     // Check timestamp against prev
     if (GetBlockTime() <= nMedianTimePast || FutureDrift(GetBlockTime()) < pindexPrev->GetBlockTime())
