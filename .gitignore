@@ -13,6 +13,8 @@ src/build.h
 *.qm
 Makefile
 MasterSwiscoin-qt
+MasterSwiscoin-Qt.app
+.qmake.stash
 #resources cpp
 qrc_*.cpp
 #qt creator

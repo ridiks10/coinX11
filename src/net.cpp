@@ -1016,7 +1016,7 @@ uint32_t pnSeed[] =
 
 const char* pchTorSeed[] = 
 {
-    "seedp4knqnoei57u.onion",
+    // "seedp4knqnoei57u.onion",
 };
 
 void DumpAddresses()
