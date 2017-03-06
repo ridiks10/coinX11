@@ -34,7 +34,7 @@ class CNode;
 // Global state
 //
 
-static const int LAST_POW_BLOCK = 8000;
+static const int LAST_POW_BLOCK = 50;
 
 static const unsigned int MAX_BLOCK_SIZE = 1000000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
